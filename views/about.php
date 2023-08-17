@@ -1,7 +1,5 @@
-<?php 
 
-//require "router.php";
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,11 +46,11 @@
     <h2>SKILLS</h2>
 
     <ol>
-                <li>Communication skill</li>
-                <li>Javascript</li>
-                <li>Html & Css</li>
-                <li>Wordpress</li>
-                <li>Php language</li>
+                <li>.Communication skill</li>
+                <li>.Javascript</li>
+                <li>.Html & Css</li>
+                <li>.Wordpress</li>
+                <li>.Php language</li>
                 
             </ol>
 

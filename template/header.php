@@ -41,19 +41,40 @@ menu a:hover {
         body{
             background-color: yellow;
 }
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px;
+}
+
+.menu-left a,
+.menu-right a {
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.menu-right {
+  margin-left: auto; /* This pushes the "Register" and "Login" links to the right */
+}
         
         </style>
 </head>
 
 <body>
-    <menu>
-        <a href="/views/home.php">Home</a>
-        <a href="/views/about.php">About</a>
-        <a href="/views/contact.php">Contact</a>
-        <a href="/register.php">Register</a>
-        <a href="/login.php">Log In</a>
-        
-    </menu>
+<nav>
+  <div class="menu-left">
+    <a href="/views/home.php">Home</a>
+    <a href="/views/about.php">About</a>
+    <a href="/views/contact.php">Contact</a>
+  </div>
+  <div class="menu-right">
+    <a href="/register.php">Register</a>
+    <a href="/login.php">Login</a>
+  </div>
+</nav>
 
 </body>
 

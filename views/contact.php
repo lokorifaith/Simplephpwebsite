@@ -1,4 +1,57 @@
 
+ 
+ <?php
+
+// Initialize variables
+$name = $email = $message = "";
+$nameErr = $emailErr = $messageErr = "";
+$successMessage = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validate and sanitize input
+    $name = cleanInput($_POST['name']);
+    $email = cleanInput($_POST['email']);
+    $message = cleanInput($_POST['message']);
+
+    // Validate name
+    if (empty($name)) {
+        $nameErr = "Name is required";
+    }
+
+    // Validate email
+    if (empty($email)) {
+        $emailErr = "Email is required";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "Invalid email format";
+    }
+
+    // Validate message
+    if (empty($message)) {
+        $messageErr = "Message is required";
+    }
+
+    // If no validation errors, simulate processing and display thank you message
+    if (empty($nameErr) && empty($emailErr) && empty($messageErr)) {
+        // Simulate processing (replace with actual processing logic)
+        // You can send emails, store in database, etc.
+
+        // Display thank you message
+        $successMessage = "Thank you for your submission!<br>";
+        $successMessage .= "Name: $name<br>";
+        $successMessage .= "Email: $email<br>";
+        $successMessage .= "Message: $message";
+    }
+}
+
+function cleanInput($input) {
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
+?>
+
+
 <style>
     body {
             font-family: Arial, sans-serif;
@@ -58,120 +111,44 @@
             background-color: #0056b3;
         }
     </style>
-    <?php
-    
+    <?php require "../template/header.php"; ?>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // ... (Your existing code to process form data)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us - Simple PHP Website</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1>
+    </header>
 
-    // Save the contact form submission to the database
-    $servername = "localhost";
-    $dbUsername = "users";
-    $dbPassword = "";
-    $dbname = "contact_form_db";
+    <div class="contact-form">
+        <?php
+        if (!empty($successMessage)) {
+            echo "<div class='success'>$successMessage</div>";
+        }
+        ?>
 
-    $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbname);
+        <form method="post" action="thank_you.php">
+            <label for="name">Name:</label>
+            <input type="text" name="name" value="<?php echo $name; ?>">
+            <span class="error"><?php echo $nameErr; ?></span><br>
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+            <label for="email">Email:</label>
+            <input type="email" name="email" value="<?php echo $email; ?>">
+            <span class="error"><?php echo $emailErr; ?></span><br>
 
-    $sql = "INSERT INTO contact_submissions (fullname, email, message) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $fullname, $email, $message);
-    $stmt->execute();
-    $stmt->close();
+            <label for="message">Message:</label>
+            <textarea name="message"><?php echo $message; ?></textarea>
+            <span class="error"><?php echo $messageErr; ?></span><br>
 
-    $conn->close();
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 
-    // Redirect to the thank_you.php page with form data as query parameters
-    header("Location: thank_you.php?name=" . urlencode($fullname) . "&email=" . urlencode($email) . "&message=" . urlencode($message));
-    exit();
-}
-?>
-<?php
- 
- $name = $email = $message = "";
- $nameErr = $emailErr = $messageErr = "";
- 
- function validate_input($data) {
-     $data = trim($data);
-     $data = stripslashes($data);
-     $data = htmlspecialchars($data);
-     return $data;
- }
- if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     // Validate Name field
-     if (empty($_POST["name"])) {
-         $nameErr = "Name is required";
-     } else {
-         $name = validate_input($_POST["name"]);
-         // Check if name contains only letters and whitespace
-         if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-             $nameErr = "Only letters and white space allowed";
-         }
-     }
- 
-     // Validate Email field
-     if (empty($_POST["email"])) {
-         $emailErr = "Email is required";
-     } else {
-         $email = validate_input($_POST["email"]);
-         // Check if email address is well-formed
-         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-             $emailErr = "Invalid email format";
-         }
-     }
- 
-     // Validate Message field
-     if (empty($_POST["message"])) {
-         $messageErr = "Message is required";
-     } else {
-         $message = validate_input($_POST["message"]);
-     }
- 
-     // If there are no validation errors, simulate processing and show the "Thank You" page
-     if (empty($nameErr) && empty($emailErr) && empty($messageErr)) {
-         // Simulate processing (you can perform database operations or send an email here)
-         // For this example, we'll simply redirect to the thank you page with the user-submitted data
-         header("Location: thank_you.php?name=" . urlencode($name) . "&email=" . urlencode($email) . "&message=" . urlencode($message));
-         exit();
-     }
- }
- ?>
- 
- <!DOCTYPE html>
- <html>
- <head>
-     <title>Contact Us</title>
-     <style>
-         .error { color: red; }
-     </style>
- </head>
- <body>
- <?php require "../template/header.php"; ?> 
+    <?php require "../template/footer.php";?>
 
-    
-         <h2>Contact Us</h2>
-         <form method="post" action="../views/thank_you.php">
-             <label for="name">Name:</label>
-             <input type="text" id="name" name="name" value="<?php echo $name; ?>">
-            
-             <br><br>
-             <label for="email">Email:</label>
-             <input type="email" id="email" name="email" value="<?php echo $email; ?>">
-             
-             <br><br>
-             <label for="message">Message:</label>
-             <textarea id="message" name="message"><?php echo $message; ?></textarea>
-             
-             <br><br>
-             <input type="submit" value="Submit">
-         </form>
-         <?php require "../template/footer.php";?>
-
- 
-    
- </body>
- </html>
- 
+</body>
+</html>

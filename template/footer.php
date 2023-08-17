@@ -1,34 +1,30 @@
-<footer> 
-    
 <style>
-        /* Your existing CSS styles here */
+footer {
+  background-color: #333;
+  padding: 0px;
+  text-align: center;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  
+}
 
-        /* Footer styles */
-        .footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 50px;
-            padding-top:20px;
-        }
+/* Adjust the link styles within the footer */
+footer a {
+  padding: 2px 5px;
+  text-decoration: none;
+  color: white;
+  margin: 0 5px;
+}
+</style>
 
-        .footer p {
-            margin: 0;
-        }
 
-        .footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-        background-color: blue;
-        }
-    </style><div class="footer">
-        <p>&copy; 2023 Simplephpwebsite.test. All rights reserved.</p>
-        <p>Contact: laravel</p>
-        <p><a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-            <a href="/thank_you">Thank You</a></p>
-    </div></footer>
+<footer>
+  <p>&copy; 2023 Simplephpwebsite.test. All rights reserved.</p>
+  <p>Contact: laravel</p>
+  <p>
+    <a href="/views/home.php">Home</a>
+    <a href="/views/about.php">About</a>
+    <a href="/views/contact.php">Contact</a>
+  </p>
+</footer>
